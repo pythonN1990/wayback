@@ -1,0 +1,7 @@
+{
+  "default": "https://web.archive.org/cdx/search/cdx?url=example.com/*&output=text&fl=original&collapse=urlkey",
+  "with_subdomains": "https://web.archive.org/cdx/search/cdx?url=*.example.com/*&output=text&fl=original&collapse=urlkey",
+  "with_parameters": "https://web.archive.org/cdx/search/cdx?url=example.com/*&output=text&fl=original&collapse=urlkey",
+  "api_like_paths": "https://web.archive.org/cdx/search/cdx?url=example.com/*&output=text&fl=original&collapse=urlkey",
+  "year_filter": "https://web.archive.org/cdx/search/cdx?url=example.com/*&from=2021&output=text&fl=original&collapse=urlkey"
+}
