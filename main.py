@@ -13,20 +13,24 @@ def print_figlet(figlet, version, args):
 
 def control_args(args):
     if "." not in args.url:
-        raise Exception("Domain uzantısı tespit edilemedi.")
+        raise Exception("Domain extension could not be detected.")
 
 def find_scan_api(args):
     try:
         if args.scan is not None:
-            print(textwrap.dedent(f"{Fore.YELLOW}[!]{Fore.WHITE} '{args.scan}' tarama çalıştırılıyor."))
+            print(textwrap.dedent(
+                f"{Fore.YELLOW}[!]{Fore.WHITE} Running '{args.scan}' scan."
+            ))
             api = wayback.api.find_scan_type(args.scan)
             return re.sub("example.com", args.url, api)
-            
+
         else:
-            print(textwrap.dedent(f"{Fore.YELLOW}[!]{Fore.WHITE} 'default' tarama çalıştırılıyor."))
+            print(textwrap.dedent(
+                f"{Fore.YELLOW}[!]{Fore.WHITE} Running 'default' scan."
+            ))
             api = wayback.api.find_scan_type("default")
             return re.sub("example.com", args.url, api)
-            
+
     except Exception as e:
         raise Exception(e)
 
@@ -35,34 +39,34 @@ def control_end_of_launch(args):
         wayback.api.save_output(args.output)
 
 def main():
-    parser = argparse.ArgumentParser(description="Wayback OSINT")
-    # // Argüman çekme
+    parser = argparse.ArgumentParser(description="Wayback OSINT Tool")
+
     parser.add_argument(
         "-u", "--url",
-        help="Wayback'de taranacak URL",
+        help="Target URL to scan using Wayback Machine",
         required=True
     )
     parser.add_argument(
         "-s", "--scan",
-        help="Taranacak URL türleri."
+        help="Scan type to run (defined in wayback_api.json)"
     )
     parser.add_argument(
         "-o", "--output",
-        help="Çıktı kaydetip kaydetme."
+        help="Save output to file"
     )
     parser.add_argument(
         "--silent",
         action="store_true",
-        help="Sade çıktı."
+        help="Disable banner and non-essential output"
     )
 
     args = parser.parse_args()
-    # // Argüman çekme
-    control_args(args) # // Argümanların hatalı olup olmadığını kontro eder.
+
+    control_args(args)
     print_figlet(figlet="Wayback", version="DEMO", args=args)
     api = find_scan_api(args)
-    wayback.api.launch_scan(api) 
-    control_end_of_launch(args) # # // Outputun kaydedilip kaydedilmeyeceğini vs. kontro leder.
+    wayback.api.launch_scan(api)
+    control_end_of_launch(args)
 
 if __name__ == "__main__":
     main()
